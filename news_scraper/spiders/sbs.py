@@ -4,7 +4,7 @@ from scrapy import Selector
 from .. import items
 
 
-class SbsSpider(scrapy.Spider):
+class NewsSpider(scrapy.Spider):
     name = "sbs"
     allowed_domains = ["http://news.sbs.co.kr"]
     start_urls = ['http://news.sbs.co.kr/news/newsSection.do?sectionType=01/']

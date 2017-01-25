@@ -4,7 +4,7 @@ from scrapy import Selector
 from .. import items
 
 
-class MbcSpider(scrapy.Spider):
+class NewsSpider(scrapy.Spider):
     name = "mbc"
     allowed_domains = ["http://imnews.imbc.com"]
     start_urls = ['http://imnews.imbc.com/news/2017/politic/index.html']

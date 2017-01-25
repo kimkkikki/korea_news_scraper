@@ -4,7 +4,7 @@ from scrapy import Selector
 from .. import items
 
 
-class JtbcSpider(scrapy.Spider):
+class NewsSpider(scrapy.Spider):
     name = "jtbc"
     allowed_domains = ["http://news.jtbc.joins.com"]
     start_urls = ['http://news.jtbc.joins.com/section/index.aspx?scode=10/']
