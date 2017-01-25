@@ -14,7 +14,7 @@ class NewsScraperPipeline(object):
     def __init__(self):
         host = 'localhost'
         user = 'root'
-        password = ''
+        password = '23krq4'
         self.database = 'daesun_development'
         self.table = 'scraps'
 
@@ -22,17 +22,17 @@ class NewsScraperPipeline(object):
         self.curs = self.conn.cursor()
 
     def process_item(self, item, spider):
-        title = item['title'][0]
-        link = item['link'][0]
+        title = item['title']
+        link = item['link']
         cp = item['cp']
-        self.curs.execute("select * from daesun_development.scraps where title = %s or link = %s", (title, link))
+        self.curs.execute("select * from " + self.database + "." + self.table + " where title = %s or link = %s", (title, link))
         result = self.curs.fetchone()
 
         if result:
             print('data already exist')
         else:
             now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            self.curs.execute("insert into daesun_development.scraps (title, link, cp, created_at, updated_at)"
+            self.curs.execute("insert into " + self.database + "." + self.table + " (title, link, cp, created_at, updated_at)"
                               " values (%s, %s, %s, %s, %s)", (title, link, cp, now, now))
             self.conn.commit()
 

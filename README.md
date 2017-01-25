@@ -11,5 +11,5 @@ scrapy genspider #spider_name #url
 
 run
 ```
-scrapy crawl #spider_name
+python run_all
 ```

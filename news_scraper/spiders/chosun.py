@@ -15,10 +15,18 @@ class NewsSpider(scrapy.Spider):
         result_list = []
         for select in selects:
             item = items.NewsScraperItem()
-            item['title'] = select.xpath('a/text()').extract()
-            item['link'] = select.xpath('a/@href').extract()
-            item['cp'] = 'chosun'
+            titles = select.xpath('a/text()').extract()
+            links = select.xpath('a/@href').extract()
 
-            result_list.append(item)
+            if len(titles) > 0 and len(links) > 0:
+                title = ''
+                for text in titles:
+                    title += text
+
+                item['title'] = title
+                item['link'] = links[0]
+                item['cp'] = 'chosun'
+
+                result_list.append(item)
 
         return result_list

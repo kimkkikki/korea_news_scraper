@@ -6,7 +6,7 @@ from .. import items
 
 class NewsSpider(scrapy.Spider):
     name = "sbs"
-    allowed_domains = ["http://news.sbs.co.kr"]
+    allowed_domains = ["news.sbs.co.kr"]
     start_urls = ['http://news.sbs.co.kr/news/newsSection.do?sectionType=01/']
 
     def parse(self, response):
@@ -14,13 +14,20 @@ class NewsSpider(scrapy.Spider):
         selects = hxs.xpath('//a[contains(@href, "news_id")]')
         result_list = []
         for select in selects:
-            item = items.NewsScraperItem()
-            title = select.xpath('@title').extract()
-            item['title'] = title
-            item['link'] = select.xpath('@href').extract()
-            item['cp'] = 'sbs'
+            titles = select.xpath('@title').extract()
+            links = select.xpath('@href').extract()
 
-            if len(str(title)) > 6:
-                result_list.append(item)
+            if len(titles) > 0 and len(links) > 0:
+                item = items.NewsScraperItem()
+                title = ''
+                for text in titles:
+                    title += text
+                title = title.replace('\r', '').replace('\t', '').replace('\n', '')
+
+                if len(title) > 0:
+                    item['title'] = title
+                    item['link'] = links[0]
+                    item['cp'] = 'sbs'
+                    result_list.append(item)
 
         return result_list
