@@ -17,6 +17,6 @@ process.crawl(ytn.NewsSpider)
 process.crawl(sisain.NewsSpider)
 process.crawl(newsis.NewsSpider)
 process.crawl(munhwa.NewsSpider)
-process.crawl(hani.NewsSpider)
+#process.crawl(hani.NewsSpider)
 
 process.start()
