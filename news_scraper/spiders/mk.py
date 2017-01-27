@@ -5,13 +5,13 @@ from .. import items
 
 
 class NewsSpider(scrapy.Spider):
-    name = "hani"
-    allowed_domains = ["www.hani.co.kr"]
-    start_urls = ['http://www.hani.co.kr']
+    name = "mk"
+    allowed_domains = ["news.mk.co.kr"]
+    start_urls = ['http://news.mk.co.kr/newsList.php?sc=30000021']
 
     def parse(self, response):
         hxs = Selector(response)
-        selects = hxs.xpath('//a[contains (@href, "society")]')
+        selects = hxs.xpath('//a[contains (@href, "newsRead")]')
         result_list = []
         for select in selects:
             item = items.NewsScraperItem()
@@ -23,10 +23,10 @@ class NewsSpider(scrapy.Spider):
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '')
 
-                if len(title) > 10:
+                if 10 < len(title) < 100:
                     item['title'] = title
                     item['link'] = links[0]
-                    item['cp'] = 'hani'
+                    item['cp'] = 'mk'
                     result_list.append(item)
 
         return result_list

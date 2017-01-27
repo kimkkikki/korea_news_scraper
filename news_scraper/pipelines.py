@@ -12,10 +12,10 @@ from datetime import datetime
 class NewsScraperPipeline(object):
 
     def __init__(self):
-        host = 'localhost'
-        user = 'root'
-        password = '23krq4'
-        self.database = 'daesun_development'
+        host = '104.199.133.72'
+        user = 'daesun'
+        password = 'aabb1122'
+        self.database = 'daesun'
         self.table = 'scraps'
 
         self.conn = pymysql.connect(host=host, user=user, password=password, db=self.database, charset='utf8')
