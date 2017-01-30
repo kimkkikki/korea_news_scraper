@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from scrapy.crawler import CrawlerProcess
-from scrapy.conf import settings
+from scrapy.utils.project import get_project_settings
 from news_scraper.spiders import chosun, jtbc, mbc, sbs, joins, donga, yonhap, ytn, sisain, newsis, munhwa
 from news_scraper.spiders import hani, ohmynews, khan, kmib, ichannela, tvchosun, asiae, mk, mbn, heraldcorp
 from news_scraper.spiders import sedaily, segye, mt
 
-process = CrawlerProcess()
-process.settings = settings
+process = CrawlerProcess(get_project_settings())
 
 process.crawl(chosun.NewsSpider)
 process.crawl(jtbc.NewsSpider)
