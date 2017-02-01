@@ -21,9 +21,9 @@ class NewsSpider(scrapy.Spider):
                 title = ''
                 for text in titles:
                     title += text
-                title = title.replace('\r', '').replace('\t', '').replace('\n', '')
+                title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
 
-                if len(title) > 0 and len(title.replace(' ', '')) > 0:
+                if 10 < len(title) < 100:
                     item['title'] = title
                     item['link'] = links[0]
                     item['cp'] = 'sisain'

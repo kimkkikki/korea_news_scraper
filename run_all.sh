@@ -27,3 +27,5 @@ scrapy crawl heraldcorp >> /home/kimkkikki/cron.log 2>&1
 scrapy crawl segye >> /home/kimkkikki/cron.log 2>&1
 scrapy crawl mt >> /home/kimkkikki/cron.log 2>&1
 scrapy crawl sedaily >> /home/kimkkikki/cron.log 2>&1
+scrapy crawl seoul >> /home/kimkkikki/cron.log 2>&1
+scrapy crawl edaily >> /home/kimkkikki/cron.log 2>&1
