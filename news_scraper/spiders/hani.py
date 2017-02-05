@@ -7,11 +7,11 @@ from .. import items
 class NewsSpider(scrapy.Spider):
     name = "hani"
     allowed_domains = ["www.hani.co.kr"]
-    start_urls = ['http://www.hani.co.kr']
+    start_urls = ['http://www.hani.co.kr/arti/politics/polibar/list.html']
 
     def parse(self, response):
         hxs = Selector(response)
-        selects = hxs.xpath('//a[contains (@href, "society")]')
+        selects = hxs.xpath('//a[contains (@href, "politics")]')
         result_list = []
         for select in selects:
             item = items.NewsScraperItem()

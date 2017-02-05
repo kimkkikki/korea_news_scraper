@@ -11,12 +11,12 @@ class NewsSpider(scrapy.Spider):
 
     def parse(self, response):
         hxs = Selector(response)
-        selects = hxs.xpath('//p')
+        selects = hxs.xpath('//a[contains (@href, "html_dir")]')
         result_list = []
         for select in selects:
             item = items.NewsScraperItem()
-            titles = select.xpath('a/text()').extract()
-            links = select.xpath('a/@href').extract()
+            titles = select.xpath('text()').extract()
+            links = select.xpath('@href').extract()
 
             if len(titles) > 0 and len(links) > 0:
                 title = ''
