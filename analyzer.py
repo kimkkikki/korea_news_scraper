@@ -25,10 +25,9 @@ now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 db = MySQLdb.connect(host="104.199.133.72", user="daesun", passwd="aabb1122", charset="utf8", db="daesun", use_unicode=True)
 
 start_date = datetime.strptime('2017-02-01 21:00', '%Y-%m-%d %H:%M')
-end_date = datetime.strptime('2017-02-02 17:00', '%Y-%m-%d %H:%M')
+end_date = datetime.strptime('2017-02-07 19:00', '%Y-%m-%d %H:%M')
 
 while start_date <= end_date :
-
 
     for candidate in candidates:
         cursor = db.cursor()
@@ -49,23 +48,8 @@ while start_date <= end_date :
             if len(top_text) == 3:
                 break
 
-        print(top_text)
-
         for text in top_text:
-            for d in data_doc:
-                for t in d[0]:
-                    if(text == t):
-                        print(text)
-                        print(top_text[text])
-                        #query = "select id from keywords where candidate = '" + candidate[1] + "' and keyword = '" + t + "' and created_at between '" + str(start_date - timedelta(hours=3)) + "' and '" + str(start_date) + "'"
-                        #cursor.execute(query)
-                        #result = cursor.fetchone()
-                        #if result:
-                        #    rowid = result[0]
-                        #else:
-                        #    cursor.execute("insert into keywords (candidate, keyword, created_at) values (%s,%s,%s)", (candidate[1], t, str(start_date)))
-                        #    rowid = cursor.lastrowid
-                        #cursor.execute("insert into scrap_keyword (scrap_id, keyword_id) values (%s,%s)", (d[1], rowid))
-                        #db.commit()
+            cursor.execute("insert into keywords (candidate, keyword, count, created_at) values (%s,%s,%s, %s)", (candidate[1], text, top_text[text], str(start_date)))
+            db.commit()
 
     start_date += timedelta(hours=1)
