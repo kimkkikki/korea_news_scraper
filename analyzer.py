@@ -20,36 +20,27 @@ def tokenize(doc):
 
 candidates = ['문재인', '안철수', '이재명', '유승민', '안희정', '황교안', '남경필']
 
-now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
 db = MySQLdb.connect(host="104.199.133.72", user="daesun", passwd="aabb1122", charset="utf8", db="daesun", use_unicode=True)
 
-start_date = datetime.strptime('2017-02-01 21:00', '%Y-%m-%d %H:%M')
-end_date = datetime.strptime('2017-02-07 19:00', '%Y-%m-%d %H:%M')
+for candidate in candidates:
+    cursor = db.cursor()
+    cursor.execute("select title, cp, id, created_at from scraps WHERE created_at between '" + str(datetime.now() - timedelta(hours=3)) + "' and '" + str(datetime.now()) + "' and title like '%" + candidate + "%' ")
 
-while start_date <= end_date :
+    recent_data = cursor.fetchall()
 
-    for candidate in candidates:
-        cursor = db.cursor()
-        cursor.execute("select title, cp, id, created_at from scraps WHERE created_at between '" + str(start_date - timedelta(hours=3)) + "' and '" + str(start_date) + "' and title like '%" + candidate + "%' ")
+    data_doc = [(tokenize(data[0]), data[2]) for data in recent_data]
+    tokens = [t.split('/')[0] for d in data_doc for t in d[0]]
+    text = nltk.Text(tokens, name='news_data')
 
-        recent_data = cursor.fetchall()
+    top_text = {}
 
-        data_doc = [(tokenize(data[0]), data[2]) for data in recent_data]
-        tokens = [t.split('/')[0] for d in data_doc for t in d[0]]
-        text = nltk.Text(tokens, name='news_data')
+    for text_data in text.vocab().most_common():
+        if len(text_data[0]) > 1 and text_data[1] > 1 and text_data[1] / len(data_doc) >= 0.3:
+            top_text[text_data[0]] = text_data[1]
 
-        top_text = {}
+        if len(top_text) == 3:
+            break
 
-        for text_data in text.vocab().most_common():
-            if len(text_data[0]) > 1 and text_data[1] > 1 and text_data[1] / len(data_doc) >= 0.3:
-                top_text[text_data[0]] = text_data[1]
-
-            if len(top_text) == 3:
-                break
-
-        for text in top_text:
-            cursor.execute("insert into keywords (candidate, keyword, count, created_at) values (%s,%s,%s, %s)", (candidate, text, top_text[text], str(start_date)))
-            db.commit()
-
-    start_date += timedelta(hours=1)
+    for text in top_text:
+        cursor.execute("insert into keywords (candidate, keyword, count, created_at) values (%s,%s,%s, %s)", (candidate, text, top_text[text], str(datetime.now())))
+        db.commit()
