@@ -26,7 +26,7 @@ class NewsSpider(scrapy.Spider):
                 if 10 < len(title) < 100:
                     item = items.NewsScraperItem()
                     item['title'] = title
-                    item['link'] = links[0]
+                    item['link'] = 'http://news.jtbc.joins.com' + links[0]
                     item['cp'] = 'jtbc'
                     result_list.append(item)
 
