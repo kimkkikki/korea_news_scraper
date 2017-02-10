@@ -19,6 +19,7 @@ def tokenize(doc):
 
 
 candidates = ['문재인', '안철수', '이재명', '유승민', '안희정', '황교안', '남경필']
+ignore = ['대선', '대행', '행보', '오늘', '권한', '에서' ]
 
 db = MySQLdb.connect(host="104.199.133.72", user="daesun", passwd="aabb1122", charset="utf8", db="daesun", use_unicode=True)
 
@@ -35,7 +36,7 @@ for candidate in candidates:
     top_text = {}
 
     for text_data in text.vocab().most_common():
-        if len(text_data[0]) > 1 and text_data[1] > 1 and text_data[1] / len(data_doc) >= 0.3:
+        if len(text_data[0]) > 1 and text_data[1] > 1 and text_data[1] / len(data_doc) >= 0.3 and (text_data[1] not in ignore):
             top_text[text_data[0]] = text_data[1]
 
         if len(top_text) == 3:
