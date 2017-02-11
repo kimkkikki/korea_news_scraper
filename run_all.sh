@@ -29,3 +29,5 @@ scrapy crawl mt >> /home/kimkkikki/cron.log 2>&1
 scrapy crawl sedaily >> /home/kimkkikki/cron.log 2>&1
 scrapy crawl seoul >> /home/kimkkikki/cron.log 2>&1
 scrapy crawl edaily >> /home/kimkkikki/cron.log 2>&1
+scrapy crawl news1 >> /home/kimkkikki/cron.log 2>&1
+scrapy crawl kbs >> /home/kimkkikki/cron.log 2>&1
