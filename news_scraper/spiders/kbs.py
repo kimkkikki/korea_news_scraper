@@ -29,7 +29,7 @@ class NewsSpider(scrapy.Spider):
                 item = items.NewsScraperItem()
                 item['title'] = title
                 item['link'] = 'http://news.kbs.co.kr/news/view.do?ncd=' + str(link)
-                item['cp'] = 'news1'
+                item['cp'] = 'kbs'
 
                 result_list.append(item)
 
