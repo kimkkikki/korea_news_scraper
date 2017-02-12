@@ -50,7 +50,7 @@ for candidate in candidates:
 
     for text in top_text:
         cursor.execute("insert into keywords (candidate, keyword, count, created_at) values (%s,%s,%s, %s)",
-                       (candidate, text, top_text[text], str(datetime.now())))
+                       (candidate, text, top_text[text], datetime.now().strftime('%Y-%m-%d %H:%M')))
         db.commit()
 
 db.close()
