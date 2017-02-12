@@ -22,7 +22,7 @@ class NewsSpider(scrapy.Spider):
                 title = ''
                 for text in titles:
                     title += text
-                title = title.replace('\r', '').replace('\t', '').replace('\n', '')
+                title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
 
                 if 10 < len(title) < 100:
                     item['title'] = title
