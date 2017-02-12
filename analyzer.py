@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-#-*- coding: utf-8 -*-
-
 import nltk
 from konlpy.tag import Twitter
 import MySQLdb
@@ -19,7 +16,7 @@ def tokenize(doc):
 
 
 candidates = ['문재인', '안철수', '이재명', '유승민', '안희정', '황교안', '남경필']
-ignore = ['대선', '대행', '행보', '오늘', '권한', '에서' ]
+ignore = ['대선', '대행', '행보', '오늘', '권한', '에서']
 
 db = MySQLdb.connect(host="104.199.133.72", user="daesun", passwd="aabb1122", charset="utf8", db="daesun", use_unicode=True)
 
