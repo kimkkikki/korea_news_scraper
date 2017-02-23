@@ -49,7 +49,7 @@ def get_issue_keywors(candidate, start_date, end_date):
         if data[1] > 1:
             most_dict[data[0]] = data[1]
 
-    print(most_dict)
+    # print(most_dict)
 
     finder = BigramCollocationFinder.from_words(nltk_text, 2)
     finder.apply_freq_filter(2)
@@ -62,7 +62,7 @@ def get_issue_keywors(candidate, start_date, end_date):
         if w1 in most_dict or w2 in most_dict:
             colloc_list.append(w1.split('/')[0] + ' ' + w2.split('/')[0])
 
-    print(colloc_list)
+    # print(colloc_list)
 
     result_list = []
     for colloc in colloc_list:
@@ -88,7 +88,7 @@ def get_issue_keywors(candidate, start_date, end_date):
             result_string += string + ' '
         result_string_list.append(result_string.strip())
 
-    print(result_string_list)
+    # print(result_string_list)
     return result_string_list
 
 
