@@ -26,17 +26,28 @@ class NewsScraperPipeline(object):
             title = item['title']
             link = item['link']
             cp = item['cp']
-            self.curs.execute("select * from " + self.database + "." + self.table +
-                              " where cp = %s and (title = %s or link = %s)", (cp, title, link))
-            result = self.curs.fetchone()
 
-            if result:
-                print('data already exist')
+            ignore_titles = ['영업익', '영업이익', '영업손', '영업손실', '코스피', '코스닥', '순매수', '순매도']
+            is_save = True
+            for ignore_title in ignore_titles:
+                if ignore_title in title:
+                    is_save = False
+                    break
+
+            if is_save:
+                self.curs.execute("select * from " + self.database + "." + self.table +
+                                  " where cp = %s and (title = %s or link = %s)", (cp, title, link))
+                result = self.curs.fetchone()
+
+                if result:
+                    print('data already exist')
+                else:
+                    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    self.curs.execute("insert into " + self.database + "." + self.table + " (title, link, cp, created_at, updated_at)"
+                                      " values (%s, %s, %s, %s, %s)", (title, link, cp, now, now))
+                    self.conn.commit()
             else:
-                now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                self.curs.execute("insert into " + self.database + "." + self.table + " (title, link, cp, created_at, updated_at)"
-                                  " values (%s, %s, %s, %s, %s)", (title, link, cp, now, now))
-                self.conn.commit()
+                print('ignore this news')
 
             return item
         else:
