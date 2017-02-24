@@ -23,7 +23,7 @@ class NewsSpider(scrapy.Spider):
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
 
-                if 10 < len(title) < 100:
+                if 10 < len(title) < 100 and 'javascript' not in links[0]:
                     item['title'] = title
                     item['link'] = 'http://www.ichannela.com' + links[0]
                     item['cp'] = 'ichannela'
