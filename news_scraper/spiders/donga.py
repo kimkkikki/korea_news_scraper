@@ -22,10 +22,12 @@ class NewsSpider(scrapy.Spider):
                 for text in titles:
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
+                link = links[0].replace('East/3/all', 'Politics/3/00').replace('BestClick/3/all', 'Politics/3/00')\
+                    .replace('Politics/3/000028', 'Politics/3/00')
 
                 if 10 < len(title) < 100:
                     item['title'] = title
-                    item['link'] = links[0]
+                    item['link'] = link
                     item['cp'] = 'donga'
                     result_list.append(item)
 
