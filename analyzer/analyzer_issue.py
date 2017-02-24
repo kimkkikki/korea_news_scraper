@@ -28,10 +28,12 @@ def get_issue_keywors(candidate, start_date, end_date):
     if candidate == 'ALL':
         query = "select title from scraps WHERE created_at between '" + start_date + "' and '" + end_date + "';"
         most_common = 50
+        colloc_best = 50
     else:
         query = "select title from scraps WHERE created_at between '" + start_date + "' and '" + end_date + \
                    "' and title like '%" + candidate + "%';"
         most_common = 20
+        colloc_best = 20
 
     cursor.execute(query)
     recent_data = cursor.fetchall()
@@ -55,7 +57,7 @@ def get_issue_keywors(candidate, start_date, end_date):
     finder.apply_freq_filter(2)
     finder.apply_word_filter(lambda w: len(w) < 3)
     bigram_measures = BigramAssocMeasures()
-    collocations = finder.nbest(bigram_measures.mi_like, 20)
+    collocations = finder.nbest(bigram_measures.mi_like, colloc_best)
 
     colloc_list = []
     for w1, w2 in collocations:
@@ -108,7 +110,7 @@ def get_keywords_of_day(date):
 
         db.commit()
 
-# get_keywords_of_day(datetime.strptime('20170209', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170223', '%Y%m%d'))
 get_keywords_of_day(datetime.now())
 
 db.close()
