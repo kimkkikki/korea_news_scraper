@@ -23,7 +23,7 @@ class NewsSpider(scrapy.Spider):
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
 
-                if 10 < len(title) < 100:
+                if 10 < len(title) < 100 and '영업익' not in title and '영업손' not in title and '영업이익' not in title and '영업손실' not in title:
                     item['title'] = title
                     item['link'] = links[0]
                     item['cp'] = 'mt'

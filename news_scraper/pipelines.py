@@ -27,7 +27,7 @@ class NewsScraperPipeline(object):
             link = item['link']
             cp = item['cp']
             self.curs.execute("select * from " + self.database + "." + self.table +
-                              " where cp = %s and title = %s or link = %s", (cp, title, link))
+                              " where cp = %s and (title = %s or link = %s)", (cp, title, link))
             result = self.curs.fetchone()
 
             if result:
