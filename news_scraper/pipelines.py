@@ -27,7 +27,8 @@ class NewsScraperPipeline(object):
             link = item['link']
             cp = item['cp']
 
-            ignore_titles = ['영업익', '영업이익', '영업손', '영업손실', '코스피', '코스닥', '순매수', '순매도', '리얼미터', '갤럽', '리서치뷰', '%p']
+            ignore_titles = ['영업익', '영업이익', '영업손', '영업손실', '코스피', '코스닥', '순매수', '순매도', '리얼미터', '갤럽',
+                             '리서치뷰', '%p', '마감', '증시', '연준']
             is_save = True
             for ignore_title in ignore_titles:
                 if ignore_title in title:
