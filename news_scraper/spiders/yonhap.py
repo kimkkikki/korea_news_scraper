@@ -7,7 +7,7 @@ from .. import items
 class NewsSpider(scrapy.Spider):
     name = "yonhap"
     allowed_domains = ["www.yonhapnews.co.kr/politics/"]
-    start_urls = ['http://www.yonhapnews.co.kr/politics//']
+    start_urls = ['http://www.yonhapnews.co.kr/politics/']
 
     def parse(self, response):
         hxs = Selector(response)

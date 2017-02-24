@@ -22,10 +22,11 @@ class NewsSpider(scrapy.Spider):
                 for text in titles:
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
+                link = links[0].replace('&CMPT_CD=C1500_mini', '').replace('&CMPT_CD=Ranking_mini', '')
 
                 if 10 < len(title) < 100:
                     item['title'] = title
-                    item['link'] = 'http://www.ohmynews.com' + links[0]
+                    item['link'] = 'http://www.ohmynews.com' + link
                     item['cp'] = 'ohmynews'
                     result_list.append(item)
 

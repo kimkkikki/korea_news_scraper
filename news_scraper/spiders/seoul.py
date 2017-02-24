@@ -22,10 +22,11 @@ class NewsSpider(scrapy.Spider):
                 for text in titles:
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
+                link = links[0].replace('&wlog_sub=svt_100', '')
 
                 if 10 < len(title) < 100:
                     item['title'] = title
-                    item['link'] = 'http://www.seoul.co.kr' + links[0]
+                    item['link'] = 'http://www.seoul.co.kr' + link
                     item['cp'] = 'seoul'
                     result_list.append(item)
 
