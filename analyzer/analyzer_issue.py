@@ -147,7 +147,7 @@ def get_keywords_of_day(date):
 
         db.commit()
 
-get_keywords_of_day(datetime.strptime('20170226', '%Y%m%d'))
-# get_keywords_of_day(datetime.now())
+# get_keywords_of_day(datetime.strptime('20170226', '%Y%m%d'))
+get_keywords_of_day(datetime.now())
 
 db.close()
