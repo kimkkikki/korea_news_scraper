@@ -22,10 +22,11 @@ class NewsSpider(scrapy.Spider):
                 for text in titles:
                     title += text
                 title = title.replace('\r', '').replace('\t', '').replace('\n', '').strip()
+                link = links[0].replace('&sec=pol2', '').replace('&sec=pol5', '')
 
-                if 10 < len(title) < 100 and '&sec=pol5' not in links[0]:
+                if 10 < len(title) < 100:
                     item['title'] = title
-                    item['link'] = links[0]
+                    item['link'] = link
                     item['cp'] = 'asiae'
                     result_list.append(item)
 
