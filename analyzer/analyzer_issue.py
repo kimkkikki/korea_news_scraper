@@ -15,13 +15,61 @@ cursor = db.cursor()
 
 
 def tokenize(data):
-    ignore_types = ['Punctuation', 'Josa', 'Eomi']
+    # , 'Josa', 'Eomi'
+    ignore_types = ['Punctuation']
     ignore_chars = ['…', '“', '”', '·', '’', '‘', '”“']
     result = []
     for t in data:
         if t[1] not in ignore_types and t[0] not in ignore_chars:
             result.append('/'.join(t))
     return result
+
+
+def remove_duplicate(datas):
+    temp_set = set()
+    res = []
+    for e in datas:
+        if e not in temp_set:
+            res.append(e)
+            temp_set.add(e)
+    return res
+
+
+def merge(datas):
+    result_list = []
+    for colloc in datas:
+        check = True
+        for result in result_list:
+            index = -1
+            for split in colloc:
+                if split in result:
+                    index = result.index(split)
+                    check = False
+
+            for split in colloc:
+                if index != -1:
+                    result.insert(index, split)
+                    index += 1
+
+        if check:
+            result_list.append(colloc)
+
+    real = []
+    for result in result_list:
+        real.append(remove_duplicate(result))
+
+    return real
+
+
+def compare_two_depth_list(list1, list2):
+    is_equal = True
+    if len(list1) != len(list2):
+        is_equal = False
+    else:
+        for obj1, obj2 in zip(list1, list2):
+            if set(obj1) != set(obj2):
+                is_equal = False
+    return is_equal
 
 
 def get_issue_keywors(candidate, start_date, end_date):
@@ -62,26 +110,15 @@ def get_issue_keywors(candidate, start_date, end_date):
     colloc_list = []
     for w1, w2 in collocations:
         if w1 in most_dict or w2 in most_dict:
-            colloc_list.append(w1.split('/')[0] + ' ' + w2.split('/')[0])
+            colloc_list.append([w1.split('/')[0], w2.split('/')[0]])
 
     # print(colloc_list)
 
-    result_list = []
-    for colloc in colloc_list:
-        split_colloc = colloc.split(' ')
-        check = True
-        for result in result_list:
-            if split_colloc[0] in result:
-                index = result.index(split_colloc[0])
-                result.insert(index + 1, split_colloc[1])
-                check = False
-            elif split_colloc[1] in result:
-                index = result.index(split_colloc[1])
-                result.insert(index - 1, split_colloc[0])
-                check = False
+    result_list = merge(colloc_list)
 
-        if check:
-            result_list.append(split_colloc)
+    while not compare_two_depth_list(result_list, merge(result_list)):
+        # print('one more merge')
+        result_list = merge(result_list)
 
     result_string_list = []
     for result in result_list:
@@ -110,7 +147,7 @@ def get_keywords_of_day(date):
 
         db.commit()
 
-# get_keywords_of_day(datetime.strptime('20170223', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170226', '%Y%m%d'))
 get_keywords_of_day(datetime.now())
 
 db.close()
