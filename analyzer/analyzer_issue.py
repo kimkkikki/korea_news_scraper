@@ -46,8 +46,8 @@ def merge(datas):
                     index = result.index(split)
                     check = False
 
-            for split in colloc:
-                if index != -1:
+            if index != -1:
+                for split in colloc:
                     result.insert(index, split)
                     index += 1
 
