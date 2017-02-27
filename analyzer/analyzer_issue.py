@@ -96,7 +96,7 @@ def get_issue_keywors(candidate, start_date, end_date):
 
     most_dict = {}
     for data in nltk_text.vocab().most_common(most_common):
-        if data[1] > 1:
+        if data[1] > 3:
             most_dict[data[0]] = data[1]
 
     # print(most_dict)
@@ -147,6 +147,31 @@ def get_keywords_of_day(date):
 
         db.commit()
 
+# get_keywords_of_day(datetime.strptime('20170201', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170202', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170203', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170204', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170205', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170206', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170207', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170208', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170209', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170210', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170211', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170212', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170213', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170214', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170215', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170216', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170217', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170218', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170219', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170220', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170221', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170222', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170223', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170224', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170225', '%Y%m%d'))
 # get_keywords_of_day(datetime.strptime('20170226', '%Y%m%d'))
 get_keywords_of_day(datetime.now())
 
