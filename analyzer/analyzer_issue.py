@@ -96,7 +96,7 @@ def get_issue_keywors(candidate, start_date, end_date):
 
     most_dict = {}
     for data in nltk_text.vocab().most_common(most_common):
-        if data[1] > 3:
+        if data[1] > 5:
             most_dict[data[0]] = data[1]
 
     # print(most_dict)
