@@ -76,12 +76,12 @@ def get_issue_keywors(candidate, start_date, end_date):
     if candidate == 'ALL':
         query = "select title from scraps WHERE created_at between '" + start_date + "' and '" + end_date + "';"
         most_common = 50
-        colloc_best = 100
+        colloc_best = 50
     else:
         query = "select title from scraps WHERE created_at between '" + start_date + "' and '" + end_date + \
                    "' and title like '%" + candidate + "%';"
         most_common = 20
-        colloc_best = 40
+        colloc_best = 20
 
     cursor.execute(query)
     recent_data = cursor.fetchall()
@@ -173,6 +173,7 @@ def get_keywords_of_day(date):
 # get_keywords_of_day(datetime.strptime('20170224', '%Y%m%d'))
 # get_keywords_of_day(datetime.strptime('20170225', '%Y%m%d'))
 # get_keywords_of_day(datetime.strptime('20170226', '%Y%m%d'))
+# get_keywords_of_day(datetime.strptime('20170227', '%Y%m%d'))
 get_keywords_of_day(datetime.now())
 
 db.close()
