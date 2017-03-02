@@ -13,15 +13,27 @@ passwd = sys.argv[4]
 db = MySQLdb.connect(host=host, db=db, user=user, passwd=passwd, charset="utf8", use_unicode=True)
 cursor = db.cursor()
 
+candidates = ['문재인', '안희정', '안철수', '이재명', '유승민', '남경필', '황교안', 'ALL']
+additional_ignore_dict = {'문재인': ['문재인', '전대표'],
+                          '안희정': ['안희정', '도지사', '충남'],
+                          '안철수': ['안철수', '전대표'],
+                          '이재명': ['이재명', '시장'],
+                          '남경필': ['남경필', '도지사', '경기'],
+                          '유승민': ['유승민'],
+                          '황교안': ['황교안', '권한', '대행'],
+                          'ALL': []}
 
-def tokenize(data):
+
+def tokenize(data, additional_ignores):
     # , 'Josa', 'Eomi'
     ignore_types = ['Punctuation']
     ignore_chars = ['…', '“', '”', '·', '’', '‘', '”“']
+    ignore_chars += additional_ignores
     result = []
-    for t in data:
-        if t[1] not in ignore_types and t[0] not in ignore_chars:
-            result.append('/'.join(t))
+    for title in data:
+        for t in Twitter().pos(title[0], norm=True):
+            if t[1] not in ignore_types and t[0] not in ignore_chars:
+                result.append('/'.join(t))
     return result
 
 
@@ -86,12 +98,7 @@ def get_issue_keywors(candidate, start_date, end_date):
     cursor.execute(query)
     recent_data = cursor.fetchall()
 
-    raw_data = ''
-    for obj in recent_data:
-        raw_data += obj[0]
-
-    pos = Twitter().pos(raw_data)
-    token = tokenize(pos)
+    token = tokenize(recent_data, additional_ignore_dict[candidate])
     nltk_text = nltk.Text(token)
 
     most_dict = {}
@@ -131,9 +138,6 @@ def get_issue_keywors(candidate, start_date, end_date):
     return result_string_list
 
 
-candidates = ['문재인', '안희정', '안철수', '이재명', '유승민', '남경필', '황교안', 'ALL']
-
-
 def get_keywords_of_day(date):
     for candidate in candidates:
         result = get_issue_keywors(candidate, date.strftime('%Y%m%d'), (date + timedelta(days=1)).strftime('%Y%m%d'))
@@ -147,32 +151,11 @@ def get_keywords_of_day(date):
 
         db.commit()
 
-# get_keywords_of_day(datetime.strptime('20170201', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170202', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170203', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170204', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170205', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170206', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170207', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170208', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170209', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170210', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170211', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170212', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170213', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170214', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170215', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170216', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170217', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170218', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170219', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170220', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170221', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170222', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170223', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170224', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170225', '%Y%m%d'))
-# get_keywords_of_day(datetime.strptime('20170226', '%Y%m%d'))
+# test_date = datetime.strptime('20170201', '%Y%m%d')
+# while test_date < datetime.now():
+#     get_keywords_of_day(test_date)
+#     test_date += timedelta(days=1)
+
 # get_keywords_of_day(datetime.strptime('20170227', '%Y%m%d'))
 get_keywords_of_day(datetime.now())
 
