@@ -13,12 +13,11 @@ passwd = sys.argv[4]
 db = MySQLdb.connect(host=host, db=db, user=user, passwd=passwd, charset="utf8", use_unicode=True)
 cursor = db.cursor()
 
-candidates = ['문재인', '안희정', '안철수', '이재명', '유승민', '남경필', '심상정', '홍준표', '손학규', '김진태', 'ALL']
+candidates = ['문재인', '안희정', '안철수', '이재명', '유승민', '심상정', '홍준표', '손학규', '김진태', 'ALL']
 additional_ignore_dict = {'문재인': ['문재인', '전대표'],
                           '안희정': ['안희정', '도지사', '충남'],
                           '안철수': ['안철수', '전대표'],
                           '이재명': ['이재명', '시장'],
-                          '남경필': ['남경필', '도지사', '경기'],
                           '유승민': ['유승민'],
                           '홍준표': ['홍준표', '도지사', '경남'],
                           '손학규': ['손학규'],
